@@ -2,7 +2,7 @@ workflows:
   ios-workflow:
     name: iOS Build
     environment:
-      groups:
+      groups: []  # ⬅️ CORRECTION ICI
       vars:
         BUNDLE_ID: "com.groupelec.qrscanner"
       xcode: latest
