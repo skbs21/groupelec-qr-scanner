@@ -1,20 +1,16 @@
 workflows:
   ios-workflow:
-    name: iOS Build
+    name: iOS IPA Build
     environment:
       xcode: latest
     scripts:
-      - name: Build iOS IPA
+      - name: Build Unsigned IPA
         script: |
-          # D'abord configurer le bundle identifier
+          # Configurer le bundle ID
           plutil -replace CFBundleIdentifier -string "com.groupelec.qrscanner" ios/Runner/Info.plist
           plutil -replace CFBundleDisplayName -string "Groupelec QR" ios/Runner/Info.plist
           
-          # Puis build avec code signing automatique
-          flutter build ipa --release
+          # Build IPA sans signature complexe
+          flutter build ipa --release --no-codesign
     artifacts:
       - build/ios/ipa/*.ipa
-    publishing:
-      email:
-        recipients:
-          - salmarabih4@gmail.com
