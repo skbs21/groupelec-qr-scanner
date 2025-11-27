@@ -4,13 +4,19 @@ workflows:
     environment:
       xcode: latest
     scripts:
-      - name: Build Unsigned IPA
+      - name: Build IPA Without Signing
         script: |
           # Configurer le bundle ID
           plutil -replace CFBundleIdentifier -string "com.groupelec.qrscanner" ios/Runner/Info.plist
           plutil -replace CFBundleDisplayName -string "Groupelec QR" ios/Runner/Info.plist
           
-          # Build IPA sans signature complexe
-          flutter build ipa --release --no-codesign
+          # Build pour iOS sans archiver (évite la signature)
+          flutter build ios --release --no-codesign
+          
+          # Créer l'IPA manuellement sans signature
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r groupelec-qr-scanner.ipa Payload
+          rm -rf Payload
     artifacts:
-      - build/ios/ipa/*.ipa
+      - groupelec-qr-scanner.ipa
