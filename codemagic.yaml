@@ -1,0 +1,19 @@
+workflows:
+  ios-workflow:
+    name: iOS Build
+    environment:
+      groups:
+      vars:
+        BUNDLE_ID: "com.groupelec.qrscanner"
+      xcode: latest
+    scripts:
+      - name: Build iOS IPA
+        script: |
+          flutter build ipa --release --no-codesign
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      email:
+        recipients:
+          - salmarabih4@gmail.com
