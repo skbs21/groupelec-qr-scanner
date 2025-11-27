@@ -2,17 +2,18 @@ workflows:
   ios-workflow:
     name: iOS Build
     environment:
-      groups: []  # ⬅️ CORRECTION ICI
-      vars:
-        BUNDLE_ID: "com.groupelec.qrscanner"
+      flutter: stable  # ← Ajouter cette ligne
       xcode: latest
     scripts:
+      - name: Setup Flutter
+        script: |
+          flutter channel stable
+          flutter upgrade
       - name: Build iOS IPA
         script: |
           flutter build ipa --release --no-codesign
     artifacts:
       - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
     publishing:
       email:
         recipients:
